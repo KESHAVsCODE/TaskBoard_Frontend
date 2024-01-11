@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const useFetchListData = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [listsData, setListsData] = useState([]);
+  const [lists, setLists] = useState([]);
 
   const fetchCryptoData = async () => {
     const apiUrl = `http://localhost:7000/list`;
@@ -16,7 +16,7 @@ const useFetchListData = () => {
         throw new Error(data?.message);
       }
       console.log(data);
-      setListsData(data?.userLists);
+      setLists(data?.userLists);
       setLoading(false);
       setError("");
     } catch (error) {
@@ -25,12 +25,15 @@ const useFetchListData = () => {
       setLoading(false);
     }
   };
+  const updateLists = (newLists) => {
+    setLists(newLists);
+  };
 
   useEffect(() => {
     fetchCryptoData();
   }, []);
 
-  return { loading, listsData, error };
+  return { loading, lists, error, updateLists };
 };
 
 export default useFetchListData;

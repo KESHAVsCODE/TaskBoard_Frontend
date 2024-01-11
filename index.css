@@ -4,7 +4,16 @@
 
 @layer components {
   .customButton {
-    @apply bg-buttonBackground text-white font-bold text-xs px-6 py-2 rounded-lg hover:opacity-80 transition-opacity duration-200;
+    @apply bg-[#ff5566] text-white font-bold text-xs px-6 py-2 rounded-lg hover:opacity-80 transition-opacity duration-200;
+  }
+  .inputBox {
+    @apply text-pink-300;
+  }
+  .errorSign {
+    @apply text-base font-bold italic text-red-600;
+  }
+  .defaultLink {
+    @apply text-blue-600  hover:text-orange-700 hover:underline underline-offset-2 cursor-pointer;
   }
   .smooth-scroll {
     scroll-behavior: smooth;

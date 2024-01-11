@@ -1,22 +1,12 @@
 import CreateNewList from "./components/CreateNewList";
 import List from "./components/List";
 import { DragDropContext } from "react-beautiful-dnd";
-// import data from "./constants/dummyData";
 import handleDragDropEvent from "./utils/handleDragDropEvent";
-import useFetchListData from "./hooks/useFetchListData";
-import { useEffect, useState } from "react";
-
+import { useContext } from "react";
+import ListsDataContext from "./context/listsDataContextProvider";
+// import Login from "./components/Login";
 function App() {
-  const [lists, setLists] = useState([]);
-
-  const { listsData, error, loading } = useFetchListData();
-
-  useEffect(() => {
-    if (listsData?.length !== 0) {
-      console.log("List Data", listsData);
-      setLists([...listsData]);
-    }
-  }, [listsData, error, loading]);
+  const { lists, loading, error, updateLists } = useContext(ListsDataContext);
 
   if (lists?.length === 0) return;
   if (loading) return <p className="text-center">Loading</p>;
@@ -34,11 +24,11 @@ function App() {
         <div className="h-[480px] m-4 p-4 flex gap-4 bg-extraLightBlack overflow-x-auto">
           <DragDropContext
             onDragEnd={(results) =>
-              handleDragDropEvent(results, lists, setLists)
+              handleDragDropEvent(results, lists, updateLists)
             }
           >
             {lists?.map((list) => (
-              <List key={list.listName} list={list} />
+              <List key={list.listId} list={list} />
             ))}
           </DragDropContext>
           <CreateNewList />

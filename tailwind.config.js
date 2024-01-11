@@ -17,6 +17,9 @@ export default {
         lightGray: "#c1c1c2",
         darkGray: "#666",
       },
+      boxShadow: {
+        focusInputBoxShadow: "0 0 3px 2px rgb(228 121 17 / 50%)",
+      },
     },
   },
   plugins: [],
