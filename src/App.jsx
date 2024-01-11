@@ -12,7 +12,7 @@ function App() {
   const { listsData, error, loading } = useFetchListData();
 
   useEffect(() => {
-    if (listsData.length !== 0) {
+    if (listsData?.length !== 0) {
       setLists(listsData);
     }
   }, [listsData, error, loading]);
@@ -33,8 +33,9 @@ function App() {
               handleDragDropEvent(results, lists, setLists)
             }
           >
-            <List list={lists[0]} />
-            <List list={lists[1]} />
+            {lists?.map((list) => (
+              <List key={list.listName} list={list} />
+            ))}
           </DragDropContext>
           <CreateNewList />
         </div>

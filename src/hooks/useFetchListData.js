@@ -16,7 +16,7 @@ const useFetchListData = () => {
         throw new Error(data?.message);
       }
       console.log(data);
-      setListsData(data?.data);
+      setListsData(data?.userLists);
       setLoading(false);
       setError("");
     } catch (error) {
