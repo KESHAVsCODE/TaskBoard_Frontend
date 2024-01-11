@@ -1,4 +1,4 @@
-const handleDragDropEvent = (results, list, setList) => {
+const handleDragDropEvent = (results, lists, setLists) => {
   const { source, destination, type } = results;
   console.log(results);
   if (!destination) return;
@@ -11,36 +11,36 @@ const handleDragDropEvent = (results, list, setList) => {
   }
 
   if (type === "TASK") {
-    const sourceListIndex = list.findIndex(
-      (list) => list.id === source.droppableId
+    const sourceListIndex = lists.findIndex(
+      (list) => list.listId === source.droppableId
     );
 
     const destinationListIndex =
       source.droppableId === destination.droppableId
         ? sourceListIndex
-        : list.findIndex((list) => list.id === destination.droppableId);
+        : lists.findIndex((list) => list.listId === destination.droppableId);
 
-    const newSourceListItems = [...list[sourceListIndex].listItems];
+    const newSourceListItems = [...lists[sourceListIndex].tasks];
     const newDestinationListItems =
       sourceListIndex != destinationListIndex
-        ? [...list[destinationListIndex].listItems]
+        ? [...lists[destinationListIndex].tasks]
         : newSourceListItems;
 
     const [removedItem] = newSourceListItems.splice(source.index, 1);
     newDestinationListItems.splice(destination.index, 0, removedItem);
 
-    const newDataList = [...list];
+    const newDataList = [...lists];
 
     newDataList[sourceListIndex] = {
-      ...list[sourceListIndex],
-      listItems: newSourceListItems,
+      ...lists[sourceListIndex],
+      tasks: newSourceListItems,
     };
     newDataList[destinationListIndex] = {
-      ...list[destinationListIndex],
-      listItems: newDestinationListItems,
+      ...lists[destinationListIndex],
+      tasks: newDestinationListItems,
     };
 
-    return setList(newDataList);
+    return setLists(newDataList);
 
     // const reorderedTaskList = [...list]; //This is not a good approach because we are directly modifying the shallow copy that are currently in use
     // const [removedTask] = reorderedTaskList[sourceListIndex].listItems.splice(
