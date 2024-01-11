@@ -2,10 +2,11 @@
 import { useEffect, useRef } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 
-const List = ({ list, setList }) => {
+const List = ({ list }) => {
   const taskInputRef = useRef(null);
   // const listRef = useRef(null);
-  console.log("----------------------------------------------sstaskList", list);
+
+  console.log("LIST ITEM", list);
 
   const handleCreateTaskClick = (e) => {
     const taskName = taskInputRef.current.value;
@@ -29,10 +30,10 @@ const List = ({ list, setList }) => {
   return (
     <div className="w-80 border flex flex-col">
       <h3 className="h-[10%] px-4 py-2 text-center font-semibold border-b bg-[#222]">
-        {list.listName}
+        {list?.listName}
       </h3>
       <div className="h-[90%] px-4 pt-4 flex-grow bg-[#272829]">
-        <Droppable droppableId={list.id} type="TASK">
+        <Droppable droppableId={list?.listId} type="TASK">
           {(provided) => (
             <div
               {...provided.droppableProps}
@@ -40,9 +41,13 @@ const List = ({ list, setList }) => {
               // ref={listRef}
               className="pb-4 h-[85%] flex flex-col gap-2 "
             >
-              {list.listItems.map((task, index) => {
+              {list?.tasks?.map((task, index) => {
                 return (
-                  <Draggable draggableId={task.id} key={task.id} index={index}>
+                  <Draggable
+                    draggableId={task.taskId}
+                    key={task.taskId}
+                    index={index}
+                  >
                     {(provided, snapshot) => (
                       <div
                         {...provided.dragHandleProps}
