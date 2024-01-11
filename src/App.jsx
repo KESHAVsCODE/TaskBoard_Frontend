@@ -13,10 +13,14 @@ function App() {
 
   useEffect(() => {
     if (listsData?.length !== 0) {
-      setLists(listsData);
+      console.log("List Data", listsData);
+      setLists([...listsData]);
     }
   }, [listsData, error, loading]);
+
+  if (lists?.length === 0) return;
   if (loading) return <p className="text-center">Loading</p>;
+  if (error) return <p className="text-center">{error}</p>;
 
   return (
     <>
@@ -40,7 +44,6 @@ function App() {
           <CreateNewList />
         </div>
       </div>
-      <input type="text" />
     </>
   );
 }
