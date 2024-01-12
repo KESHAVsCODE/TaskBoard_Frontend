@@ -1,18 +1,52 @@
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import UserContext from "../context/UserContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const emailRef = useRef({});
   const passwordRef = useRef({});
-
-  const location = useLocation();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user.userId) {
+      console.log("user.userId", user.userId);
+      navigate("/task-board");
+    }
+  }, [user.userId]);
 
   const [userDetailsErrors, setUserDetailsErrors] = useState({
     emailError: "",
     passwordError: "",
   });
+
+  const loginUser = async (user) => {
+    try {
+      setLoading(true);
+      setError("");
+      const response = await fetch("http://localhost:7000/user/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message);
+      setLoading(false);
+      setError("");
+      setUser(data?.data);
+      console.log(data);
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+      console.log(error);
+    }
+  };
 
   const handleFormSubmit = () => {
     const email = emailRef.current.value;
@@ -30,12 +64,18 @@ const Login = () => {
       setUserDetailsErrors({ ...errors });
     }
 
-    // dispatch(userSignin(auth, navigate, location, { email, password }));
+    loginUser({ userEmail: email, userPassword: password });
   };
 
   return (
-    <section name="signin" className="h-screen bg-[#6666] overflow-y-scroll">
+    <section name="signin" className="h-full bg-[#6666]- overflow-y-scroll">
       <div className="max-w-[350px] mx-auto flex flex-col items-center">
+        <div className="p-5">
+          {loading && <p className="text-center">Loading...</p>}
+          {error && (
+            <p className="text-center text-red-500 font-medium">{error}</p>
+          )}
+        </div>
         <section className="border border-lightGray rounded-lg px-6 py-4">
           <form
             noValidate
@@ -43,13 +83,15 @@ const Login = () => {
             className="grid gap-3"
             onSubmit={(e) => e.preventDefault()}
           >
-            <h2 className="text-[28px] font-medium">Sign in</h2>
+            <h2 className="text-[28px] font-medium">Login</h2>
             <div>
               <label htmlFor="email" className="text-sm leading-4 font-medium">
                 Email
               </label>
               <input
-                className="inputBox"
+                className="bg-[#333] w-full border border-zinc-400 rounded px-2 py-1 text-sm
+            outline-none focus-within:border-pink-600 focus-within:shadow-focusInputBoxShadow duration-100
+            placeholder:text-[13px] font-normal"
                 type="email"
                 name="email"
                 id="email"
@@ -57,7 +99,7 @@ const Login = () => {
                 autoComplete="email"
               />
               {userDetailsErrors.emailError && (
-                <p className="flex gap-2 items-center text-xs text-[#ff0000]">
+                <p className="flex gap-2 items-center text-xs text-[rgb(255,0,0)]">
                   <span className="errorSign">!</span>
                   {userDetailsErrors.emailError}
                 </p>
@@ -71,7 +113,9 @@ const Login = () => {
                 Password
               </label>
               <input
-                className="inputBox"
+                className="bg-[#333] w-full border border-zinc-400 rounded px-2 py-1 text-sm
+            outline-none focus-within:border-pink-600 focus-within:shadow-focusInputBoxShadow duration-100
+            placeholder:text-[13px] font-normal"
                 type="password"
                 name="password"
                 id="password"
@@ -92,43 +136,21 @@ const Login = () => {
             >
               Continue
             </button>
-            <p className="text-[#D9D6E5] text-xs leading-4 mt-4 px-2 text-center">
-              By continuing you agree to our{" "}
-              <span>
-                {" "}
-                <NavLink
-                  to="https://help.jiocinema.com/articles/terms-and-conditions/terms-and-conditions/641d382892cd636d4c10983d?uid=82a9dec5-8954-48b7-98c4-08fea6dbc289&name=AuM5QLbF"
-                  target="_blank"
-                  className="defaultLink"
-                >
-                  Terms of Use
-                </NavLink>{" "}
-              </span>
-              and acknowledge that you have read our{" "}
-              <span className="">
-                <NavLink
-                  to="https://help.jiocinema.com/articles/terms-and-conditions/privacy-policy/641d3829d903444a7aef49b1?uid=82a9dec5-8954-48b7-98c4-08fea6dbc289&name=AuM5QLbF"
-                  target="_blank"
-                  className="defaultLink"
-                >
-                  Privacy Policy.
-                </NavLink>
-              </span>
-            </p>
           </form>
         </section>
         <div className="w-full text-xs text-[#767676] font-medium mt-4 flex items-center">
           <span className="w-1/3 h-[1px]  bg-lightGray inline-flex"></span>
-          <span className="w-1/3 text-center">New to JioCinema?</span>
+          <span className="w-1/3 text-center">New to TaskBoard?</span>
           <span className="w-1/3 h-[1px] bg-lightGray inline-flex"></span>
         </div>
 
         <div className="w-full py-4">
-          <NavLink to="/register">
-            <button className=" w-full text-sm text-[#D9D6E5] p-1 border border-lightGray rounded-lg hover:bg-[#333] transform active:scale-95 transition-all ease-in-out">
-              Create your JioCinema account
-            </button>
-          </NavLink>
+          <button
+            onClick={() => navigate("/signup")}
+            className=" w-full text-sm text-[#D9D6E5] p-1 border border-lightGray rounded-lg hover:bg-[#333] transform active:scale-95 transition-all ease-in-out"
+          >
+            Create your TaskBoard account
+          </button>
         </div>
       </div>
     </section>

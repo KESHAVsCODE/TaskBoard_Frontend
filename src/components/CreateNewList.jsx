@@ -1,12 +1,11 @@
-import { useContext, useRef } from "react";
-import ListsDataContext from "../context/listsDataContextProvider";
+/* eslint-disable react/prop-types */
 
-const CreateNewList = () => {
+import { useRef } from "react";
+
+const CreateNewList = ({ lists, updateLists }) => {
   const inputRef = useRef();
-  const { lists, updateLists } = useContext(ListsDataContext);
 
   const handleCreateListClick = async () => {
-    const userId = "c3e75a36-143c-4f64-bf57-8dfc84cd17d1";
     const listName = inputRef.current.value;
     if (!listName) return;
     console.log(listName);
@@ -14,10 +13,11 @@ const CreateNewList = () => {
     try {
       const response = await fetch("http://localhost:7000/list/create", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ listName, userId }),
+        body: JSON.stringify({ listName }),
       });
       const data = await response.json();
       const newList = {
