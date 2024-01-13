@@ -1,20 +1,19 @@
-import { useContext, useEffect, useState } from "react";
-import UserContext from "../context/UserContextProvider";
+import { useEffect, useState } from "react";
 
 const useFetchListData = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [lists, setLists] = useState([]);
 
-  const { user } = useContext(UserContext);
-
   const fetchCryptoData = async () => {
-    const apiUrl = `http://localhost:7000/list`;
+    const apiUrl = `https://taskboard-backend-j1wk.onrender.com/list`;
     try {
       setLoading(true);
       setError("");
       const response = await fetch(apiUrl, {
+        method: "GET",
         credentials: "include",
+        withCredentials: true,
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
@@ -22,7 +21,7 @@ const useFetchListData = () => {
         throw new Error(data?.message);
       }
       console.log(data);
-      setLists(data?.userLists);
+      setLists(data?.data);
       setLoading(false);
       setError("");
     } catch (error) {
@@ -36,7 +35,7 @@ const useFetchListData = () => {
   };
 
   useEffect(() => {
-    if (user.userId) fetchCryptoData();
+    fetchCryptoData();
   }, []);
 
   return { loading, lists, error, updateLists };

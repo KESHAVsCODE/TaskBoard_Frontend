@@ -1,35 +1,10 @@
 /* eslint-disable react/prop-types */
 
 import { useRef } from "react";
-
-const CreateNewList = ({ lists, updateLists }) => {
+import handleCreateListClick from "../handlers/handleCreateListClick";
+const CreateNewList = ({ lists, updateLists, handleTaskCompletion }) => {
   const inputRef = useRef();
 
-  const handleCreateListClick = async () => {
-    const listName = inputRef.current.value;
-    if (!listName) return;
-    console.log(listName);
-    inputRef.current.value = "";
-    try {
-      const response = await fetch("http://localhost:7000/list/create", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ listName }),
-      });
-      const data = await response.json();
-      const newList = {
-        listName: data.list.listName,
-        listId: data.list.listId,
-        tasks: [],
-      };
-      updateLists([...lists, newList]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <div className="border">
       <h3 className="font-semibold text-center border-b py-2">
@@ -43,7 +18,14 @@ const CreateNewList = ({ lists, updateLists }) => {
           className="p-2 flex-grow"
         />
         <button
-          onClick={handleCreateListClick}
+          onClick={() =>
+            handleCreateListClick({
+              lists,
+              updateLists,
+              inputRef,
+              handleTaskCompletion,
+            })
+          }
           className="w-10 h-10 text-2xl font-semibold bg-gray-500 rounded-full cursor-pointer hover:opacity-50 active:scale-90 transition-all"
         >
           +

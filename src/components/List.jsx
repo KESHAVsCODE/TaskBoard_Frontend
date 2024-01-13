@@ -2,9 +2,15 @@
 
 import { useRef } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import handleCreateTaskClick from "../utils/handleCreateTaskClick";
-import handleDeleteTaskClick from "../utils/handleDeleteTaskClick";
-const List = ({ list, listIndex, lists, updateLists }) => {
+import handleCreateTaskClick from "../handlers/handleCreateTaskClick";
+import handleDeleteTaskClick from "../handlers/handleDeleteTaskClick";
+const List = ({
+  list,
+  listIndex,
+  lists,
+  updateLists,
+  handleTaskCompletion,
+}) => {
   const taskInputRef = useRef(null);
   // const listRef = useRef(null);
   console.log("LIST ITEM", list);
@@ -21,6 +27,7 @@ const List = ({ list, listIndex, lists, updateLists }) => {
       <h3 className="h-[10%] px-4 py-2 text-center font-semibold border-b bg-[#222]">
         {list?.listName}
       </h3>
+
       <div className="h-[90%] px-4 pt-4 flex-grow bg-[#272829]">
         <Droppable droppableId={list?.listId} type="TASK">
           {(provided) => (
@@ -39,7 +46,6 @@ const List = ({ list, listIndex, lists, updateLists }) => {
                   >
                     {(provided, snapshot) => (
                       <div
-                        {...provided.dragHandleProps}
                         {...provided.draggableProps}
                         ref={provided.innerRef}
                         style={{
@@ -48,7 +54,7 @@ const List = ({ list, listIndex, lists, updateLists }) => {
                             ? "0 0 10px rgba(0,0,0,0.5)"
                             : "none",
                         }}
-                        className="px-4 py-2 flex gap-4 bg-[#333]"
+                        className="pl-4 pr-2 py-2 flex items-center gap-2 bg-[#333]"
                       >
                         <input
                           onChange={() =>
@@ -58,7 +64,8 @@ const List = ({ list, listIndex, lists, updateLists }) => {
                               task.taskId,
                               index,
                               lists,
-                              updateLists
+                              updateLists,
+                              handleTaskCompletion
                             )
                           }
                           type="checkbox"
@@ -69,6 +76,12 @@ const List = ({ list, listIndex, lists, updateLists }) => {
                           disabled
                           className="w-full outline-none bg-[#333]"
                           value={task.taskName}
+                        />
+                        <img
+                          src="../../public/assets/drag-lightgray.png"
+                          alt="drag-icon"
+                          className="h-6"
+                          {...provided.dragHandleProps}
                         />
                       </div>
                     )}
@@ -94,7 +107,8 @@ const List = ({ list, listIndex, lists, updateLists }) => {
                   listIndex,
                   lists,
                   updateLists,
-                  taskInputRef
+                  taskInputRef,
+                  handleTaskCompletion
                 )
               }
               className="w-10 h-10 text-2xl font-semibold  rounded-full cursor-pointer hover:opacity-50 active:scale-90 transition-all bg-gray-500"

@@ -1,5 +1,10 @@
-const handleDragDropEvent = (results, lists, setLists) => {
-  const { source, destination, type } = results;
+const handleDragDropEvent = (
+  results,
+  lists,
+  setLists,
+  handleTaskCompletion
+) => {
+  const { source, destination, type, draggableId } = results;
   console.log(results);
   if (!destination) return;
 
@@ -40,7 +45,13 @@ const handleDragDropEvent = (results, lists, setLists) => {
       tasks: newDestinationListItems,
     };
 
-    return setLists(newDataList);
+    setLists(newDataList);
+    updateTasksInDatabase({
+      taskId: draggableId,
+      sourceListId: source.droppableId,
+      destinationListId: destination.droppableId,
+      handleTaskCompletion,
+    });
 
     // const reorderedTaskList = [...list]; //This is not a good approach because we are directly modifying the shallow copy that are currently in use
     // const [removedTask] = reorderedTaskList[sourceListIndex].listItems.splice(
@@ -54,6 +65,33 @@ const handleDragDropEvent = (results, lists, setLists) => {
     //   removedTask
     // );
     // return setList(reorderedTaskList);
+  }
+};
+
+const updateTasksInDatabase = async ({
+  taskId,
+  sourceListId,
+  destinationListId,
+  handleTaskCompletion,
+}) => {
+  try {
+    const response = await fetch(
+      "https://taskboard-backend-j1wk.onrender.com/task/move",
+      {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ taskId, sourceListId, destinationListId }),
+      }
+    );
+    const data = await response.json();
+    if (!response.ok) throw new Error(data?.message);
+    handleTaskCompletion("Task moved successfully");
+    console.log(data);
+  } catch (error) {
+    console.log(error);
   }
 };
 

@@ -3,25 +3,30 @@ const handleCreateTaskClick = async (
   listIndex,
   lists,
   updateLists,
-  taskInputRef
+  taskInputRef,
+  handleTaskCompletion
 ) => {
   const taskName = taskInputRef.current.value;
   if (!taskName) return;
 
   taskInputRef.current.value = "";
   try {
-    const response = await fetch("http://localhost:7000/task/create", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ taskName, listId }),
-    });
+    const response = await fetch(
+      "https://taskboard-backend-j1wk.onrender.com/task/create",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ taskName, listId }),
+      }
+    );
     const data = await response.json();
+    if (!response.ok) throw new Error(data?.message);
     const newTask = {
-      taskName: data.task.taskName,
-      taskId: data.task.taskId,
+      taskName: data.data.taskName,
+      taskId: data.data.taskId,
       isCompleted: false,
     };
     console.log("newTask", newTask);
@@ -36,8 +41,10 @@ const handleCreateTaskClick = async (
     };
 
     updateLists(updatedLists);
+    handleTaskCompletion("Task created successfully");
   } catch (error) {
     console.log(error);
+    // handleTaskCompletion();
   }
 };
 export default handleCreateTaskClick;

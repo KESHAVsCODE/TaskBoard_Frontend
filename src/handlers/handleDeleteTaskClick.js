@@ -4,17 +4,21 @@ const handleDeleteTaskClick = async (
   taskId,
   taskIndex,
   lists,
-  updateLists
+  updateLists,
+  handleTaskCompletion
 ) => {
   try {
-    const response = await fetch("http://localhost:7000/task/delete", {
-      method: "DELETE",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ taskId, listId }),
-    });
+    const response = await fetch(
+      "https://taskboard-backend-j1wk.onrender.com/task/delete",
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ taskId, listId }),
+      }
+    );
     const data = await response.json();
     if (!response.ok) throw new Error(data?.message);
     const updatedTasks = [...lists[listIndex].tasks];
@@ -27,8 +31,7 @@ const handleDeleteTaskClick = async (
       tasks: updatedTasks,
     };
     updateLists(updatedLists);
-
-    console.log("data", data);
+    handleTaskCompletion("Task completed successfully");
   } catch (error) {
     console.log("Error", error.message);
   }

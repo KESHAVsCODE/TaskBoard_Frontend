@@ -23,14 +23,17 @@ const Signup = () => {
     try {
       setLoading(true);
       setError("");
-      const response = await fetch("http://localhost:7000/user/signup", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        "https://taskboard-backend-j1wk.onrender.com/user/signup",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(user),
+        }
+      );
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
       setLoading(false);
