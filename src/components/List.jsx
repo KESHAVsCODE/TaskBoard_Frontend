@@ -78,7 +78,7 @@ const List = ({
                           value={task.taskName}
                         />
                         <img
-                          src="../../public/assets/drag-lightgray.png"
+                          src="/assets/drag-lightgray.png"
                           alt="drag-icon"
                           className="h-6"
                           {...provided.dragHandleProps}

@@ -13,8 +13,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user.userId) {
-      console.log("user.userId------------------------", user.userId);
-      // navigate("/task-board");
+      navigate("/task-board");
     }
   }, [user.userId]);
 
@@ -28,7 +27,7 @@ const Login = () => {
       setLoading(true);
       setError("");
       const response = await fetch(
-        "https://taskboard-backend-j1wk.onrender.com/user/login",
+        `https://taskboard-backend-j1wk.onrender.com/user/login`,
         {
           method: "POST",
           credentials: "include",

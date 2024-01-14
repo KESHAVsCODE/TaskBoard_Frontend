@@ -24,7 +24,7 @@ const Signup = () => {
       setLoading(true);
       setError("");
       const response = await fetch(
-        "https://taskboard-backend-j1wk.onrender.com/user/signup",
+        `https://taskboard-backend-j1wk.onrender.com/user/signup`,
         {
           method: "POST",
           credentials: "include",
