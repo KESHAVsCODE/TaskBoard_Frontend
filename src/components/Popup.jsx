@@ -2,12 +2,11 @@
 const Popup = ({ message, showPopup }) => {
   return (
     <div
-      className={`flex justify-center fixed top-0 left-0
-       right-0 p-4 bg-transparent text-white
+      className={`flex justify-center fixed top-0 left-0 right-0 py-3 bg-transparent text-white
        ${showPopup ? "" : "-translate-y-[100%]"}
          transition-transform  delay-300`}
     >
-      <p className="text-center text-green-500 border-green-500 px-4 py-2 border rounded   ">
+      <p className="px-4 py-2 text-center font-semibold text-green-500  bg-[#222] rounded">
         {message}
       </p>
     </div>

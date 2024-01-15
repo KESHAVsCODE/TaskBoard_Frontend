@@ -76,7 +76,7 @@ const updateTasksInDatabase = async ({
 }) => {
   try {
     const response = await fetch(
-      "https://taskboard-backend-j1wk.onrender.com/task/move",
+      `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/task/move`,
       {
         method: "PATCH",
         credentials: "include",

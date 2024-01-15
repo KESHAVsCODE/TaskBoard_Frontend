@@ -24,7 +24,7 @@ const Signup = () => {
       setLoading(true);
       setError("");
       const response = await fetch(
-        `https://taskboard-backend-j1wk.onrender.com/user/signup`,
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/user/signup`,
         {
           method: "POST",
           credentials: "include",

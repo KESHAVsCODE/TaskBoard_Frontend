@@ -37,14 +37,16 @@ const TaskBoard = () => {
     navigate("/login");
   };
 
-  if (loading) return <p className="text-center">Loading...</p>;
-  if (error) return <p className="text-center">{error}</p>;
+  if (loading) return <p className="py-2 text-center">Loading...</p>;
+  if (error) return <p className="py-2 text-center">{error}</p>;
 
   return (
     <div className="w-full h-full">
       <Popup message={popupMessage} showPopup={showPopup} />
-      <header className="p-4 flex justify-between bg-gray-700">
-        <p className="text-2xl font-medium">Welcome {user.userName}</p>
+      <header className="p-4 flex justify-between bg-[#444]">
+        <p className="text-xl sm:text-2xl font-medium">
+          Welcome {user.userName.split(" ")[0]}
+        </p>
         <button
           onClick={logoutUser}
           className="px-4 py-1 bg-blue-500 font-semibold rounded-lg hover:opacity-50 active:scale-90 transition-all"

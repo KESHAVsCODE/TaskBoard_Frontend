@@ -10,7 +10,7 @@ const handleCreateListClick = async ({
   inputRef.current.value = "";
   try {
     const response = await fetch(
-      "https://taskboard-backend-j1wk.onrender.com/list/create",
+      `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/list/create`,
       {
         method: "POST",
         credentials: "include",

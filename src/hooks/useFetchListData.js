@@ -6,7 +6,7 @@ const useFetchListData = () => {
   const [lists, setLists] = useState([]);
 
   const fetchCryptoData = async () => {
-    const apiUrl = `https://taskboard-backend-j1wk.onrender.com/list`;
+    const apiUrl = `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/list`;
     try {
       setLoading(true);
       setError("");

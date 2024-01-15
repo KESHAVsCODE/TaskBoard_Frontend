@@ -12,7 +12,7 @@ const handleCreateTaskClick = async (
   taskInputRef.current.value = "";
   try {
     const response = await fetch(
-      "https://taskboard-backend-j1wk.onrender.com/task/create",
+      `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/task/create`,
       {
         method: "POST",
         credentials: "include",
