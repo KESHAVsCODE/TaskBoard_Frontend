@@ -6,8 +6,8 @@ const CreateNewList = ({ lists, updateLists, handleTaskCompletion }) => {
   const inputRef = useRef();
 
   return (
-    <div className="border">
-      <h3 className="font-semibold text-center border-b py-2">
+    <div className="border bg-zinc-900">
+      <h3 className="py-2 font-semibold text-center border-b bg-zinc-700">
         Create New List
       </h3>
       <div className="p-4 flex gap-2">
@@ -26,7 +26,7 @@ const CreateNewList = ({ lists, updateLists, handleTaskCompletion }) => {
               handleTaskCompletion,
             })
           }
-          className="w-10 h-10 text-2xl font-semibold bg-gray-500 rounded-full cursor-pointer hover:opacity-50 active:scale-90 transition-all"
+          className="w-10 h-10 text-2xl font-semibold bg-zinc-700 rounded-full cursor-pointer hover:opacity-50 active:scale-90 transition-all"
         >
           +
         </button>

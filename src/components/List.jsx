@@ -13,7 +13,6 @@ const List = ({
 }) => {
   const taskInputRef = useRef(null);
   // const listRef = useRef(null);
-  console.log("LIST ITEM", list);
 
   // useEffect(() => {
   //   if (listRef.current) {
@@ -24,7 +23,7 @@ const List = ({
 
   return (
     <div className="w-80 border flex flex-col">
-      <h3 className="h-[10%] px-4 py-2 text-center font-semibold border-b bg-[#222]">
+      <h3 className="h-[10%] px-4 py-2 text-lg text-center font-semibold border-b bg-[#4f4f4f]">
         {list?.listName}
       </h3>
 
@@ -111,7 +110,7 @@ const List = ({
                   handleTaskCompletion
                 )
               }
-              className="w-10 h-10 text-2xl font-semibold  rounded-full cursor-pointer hover:opacity-50 active:scale-90 transition-all bg-gray-500"
+              className="w-10 h-10 text-2xl font-semibold  rounded-full cursor-pointer hover:opacity-50 active:scale-90 transition-all bg-zinc-700"
             >
               +
             </button>
